@@ -1,6 +1,5 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
+  <!-- <div class="hello">
     <p>
       For guide and recipes on how to configure / customize this project,<br>
       check out the
@@ -8,8 +7,7 @@
     </p>
     <h3>Installed CLI Plugins</h3>
     <ul>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel" target="_blank" rel="noopener">babel</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-eslint" target="_blank" rel="noopener">eslint</a></li>
+      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-typescript" target="_blank" rel="noopener">typescript</a></li>
     </ul>
     <h3>Essential Links</h3>
     <ul>
@@ -27,32 +25,115 @@
       <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
       <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
     </ul>
+  </div> -->
+  <div class="wrapper center">
+    <div class="box" v-for="(img,index) in images" :key="index">
+      <figure class="picture">
+        <img :src="img.img_src">
+      </figure>
+    </div>
+    <button v-on:click="loadMoreImages()">Load More</button>
   </div>
 </template>
 
-<script>
-export default {
-  name: 'HelloWorld',
-  props: {
-    msg: String
+<script lang="ts">
+import { Component, Prop, Vue } from 'vue-property-decorator';
+import axios from 'axios';
+import {ImgInfo,imgStructure} from './imageInfo';
+
+export default Vue.extend({
+  name: 'helloWorld',
+  data() {
+    return {
+      token:<string>"1611740911.1677ed0.74fc99a20d53446c9599d6da14dc24cb",
+      images:<Array<imgStructure>>[],
+      pagination:{
+        next_max_id:<string>"",
+        next_url:<string>""
+      }
+    }
+  },
+  methods: {
+    /**
+     * Gets the images by calling the instagram API: https://www.instagram.com/developer/endpoints/ 
+     * saves the result in this.images
+     */    
+    getImages() {
+      let returnedImages = new ImgInfo();
+      axios.get(`https://api.instagram.com/v1/users/self/media/recent`,{
+        params:{
+          access_token: this.token,
+        }
+      }).then((response) => {
+        this.images = returnedImages.filterInformation(response.data);
+        this.pagination.next_max_id = response.data.pagination.next_max_id;
+        this.pagination.next_url = response.data.pagination.next_url;
+        console.log(this.pagination)
+      }).catch ((error) => {
+        console.log(error)
+      })
+    },
+
+    /**
+     * Uses pagination property of instagram API to fetch the next page
+     * appends result in this.images
+     */ 
+    loadMoreImages(){
+      let returnedImages = new ImgInfo();
+      axios.get(`${this.pagination.next_url}`).then((response) => {
+        let received_images = returnedImages.filterInformation(response.data);
+        this.pagination.next_max_id = response.data.pagination.next_max_id;
+        this.pagination.next_url = response.data.pagination.next_url;
+
+        this.images = this.images.concat(received_images)
+      }).catch ((error) => {
+        console.log(error)
+      })      
+    }
+  },
+  created(){
+    this.getImages()
   }
-}
+})
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h3 {
-  margin: 40px 0 0;
+img {
+  max-width: 120%;
+  top: 25%;
+  left: 10%;
+  transform: translate(-10%, -25%);  
 }
-ul {
-  list-style-type: none;
-  padding: 0;
+
+.wrapper {
+    position: relative;
+    display: grid;
+    grid-template-columns: 25vw 25vw 25vw;
+    grid-column-gap: 10px;
+    grid-row-gap: 10px;
+    justify-items: center;
 }
-li {
-  display: inline-block;
-  margin: 0 10px;
+.center {
+    margin: 0;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%);
 }
-a {
-  color: #42b983;
+
+.box {
+    color: #fff;
+    border-radius: 10px;
+    width: 25vw;
+}
+
+.picture {
+    position: relative;
+    margin: 0;
+    opacity: 1;
+    border-radius: 10px;
+    width: auto;
+    height: 15vw;
+    overflow: hidden;
+    /* background: black; */
 }
 </style>
