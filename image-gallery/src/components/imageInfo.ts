@@ -13,6 +13,7 @@ export class ImgInfo {
     filterInformation(informations:any):Array<imgStructure> {
         for (let key in informations.data){
             let info = informations.data[key];
+            console.log(info)
 
             if(info.type == "image") {
                 let id = info.id;
@@ -20,7 +21,7 @@ export class ImgInfo {
                 let likes = info.likes.count;
                 let text = info.caption.text;
                 let tags = info.tags;
-                let caption = this.extractCaption(text,50)
+                let caption = this.extractCaption(text,150)
 
                 this.images.push({
                     img_src:src,

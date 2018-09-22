@@ -1,38 +1,15 @@
 <template>
-  <!-- <div class="hello">
-    <p>
-      For guide and recipes on how to configure / customize this project,<br>
-      check out the
-      <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
-    </p>
-    <h3>Installed CLI Plugins</h3>
-    <ul>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-typescript" target="_blank" rel="noopener">typescript</a></li>
-    </ul>
-    <h3>Essential Links</h3>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank" rel="noopener">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank" rel="noopener">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank" rel="noopener">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank" rel="noopener">Twitter</a></li>
-      <li><a href="https://news.vuejs.org" target="_blank" rel="noopener">News</a></li>
-    </ul>
-    <h3>Ecosystem</h3>
-    <ul>
-      <li><a href="https://router.vuejs.org" target="_blank" rel="noopener">vue-router</a></li>
-      <li><a href="https://vuex.vuejs.org" target="_blank" rel="noopener">vuex</a></li>
-      <li><a href="https://github.com/vuejs/vue-devtools#vue-devtools" target="_blank" rel="noopener">vue-devtools</a></li>
-      <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
-    </ul>
-  </div> -->
   <div class="wrapper center">
-    <div class="box" v-for="(img,index) in images" :key="index">
-      <figure class="picture">
+    <figure class="box" v-for="(img,index) in images" :key="index">
+      <div class="content">
         <img :src="img.img_src">
-      </figure>
-    </div>
-    <button v-on:click="loadMoreImages()">Load More</button>
+      </div>
+      <figcaption class="additional">
+        <a v-on:click="displayImgModal(img.img_src)">More Info</a>
+        <p>{{img.img_caption}}</p>
+      </figcaption>      
+    </figure>
+    <a v-on:click="loadMoreImages()">Load More</a>
   </div>
 </template>
 
@@ -69,6 +46,13 @@ export default Vue.extend({
         this.images = images
       })          
     },
+
+    displayImgModal(image_source:string){
+      console.log('calling displayModal')
+      this.$store.commit('show_lightbox')
+      this.$store.commit('set_lightbox_img', {
+        img_src: image_source})      
+    }
   },
   created(){
     this.getImages()
@@ -77,21 +61,15 @@ export default Vue.extend({
 </script>
 
 <style scoped>
-img {
-  max-width: 120%;
-  top: 25%;
-  left: 10%;
-  transform: translate(-10%, -25%);  
-}
-
 .wrapper {
     position: relative;
     display: grid;
-    grid-template-columns: 25vw 25vw 25vw;
+    grid-template-columns: repeat(3, 25vw);
     grid-column-gap: 10px;
     grid-row-gap: 10px;
     justify-items: center;
 }
+
 .center {
     margin: 0;
     position: absolute;
@@ -99,20 +77,85 @@ img {
     transform: translate(-50%);
 }
 
-.box {
-    color: #fff;
-    border-radius: 10px;
-    width: 25vw;
+.content {
+  background-color: white;
+  opacity: 1;
+  transition: opacity .5s;
 }
 
-.picture {
+figure {
     position: relative;
-    margin: 0;
-    opacity: 1;
+    overflow: hidden;
     border-radius: 10px;
+    margin: 0;
     width: auto;
     height: 15vw;
-    overflow: hidden;
-    /* background: black; */
+    background-color:white;
+    transition: background-color .5s;
 }
+
+figure img {
+  max-width: 120%;
+  top: 25%;
+  left: 10%;
+  transform: translate(-10%, -25%);   
+  transition: all .5s; 
+}
+
+figure figcaption {
+  position: absolute;
+  padding: 1em 2em;
+  top:calc(50% - 2em);
+  color: #fff;
+  text-align: center;
+}
+
+figure figcaption p {
+  display: inline-block;
+  background: rgba(0,0,0,0.5);
+  border-radius: 4px;
+  margin-bottom: 20px;
+  font-size: 0.8em;
+}
+
+figure figcaption a{
+  display: inline-block;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: .5em;
+  font-weight: bold;
+  color: white;
+  border-radius: 4px;
+  border: 1px solid white;
+}
+
+.additional {
+  opacity: 0;
+  transform: scale(1.3);
+  transition: all .5s;
+}
+
+figure:hover .content {
+  opacity: 0.7;
+  transition: opacity .5s;
+}
+
+figure:hover {
+  background-color: black;
+  transition: background-color .5s;
+}
+
+figure:hover .content img {
+  max-width: 100%;
+  top:0;
+  left:0;
+  transform: translate(0, -5%) scale(0.9); 
+}
+
+figure:hover .additional {
+  opacity:1;
+  transform: scale(1);
+}
+
+
 </style>
