@@ -2,7 +2,7 @@
  <div class="modal modal-mask">
     <a v-on:click="close_modal()">Press me</a>    
     <div class="modal-body">
-        <img :src="currentImage">      
+        <img :src="currentImage">  
         <div class="thumbnails">
             <figure 
                 v-for="(img,index) in lightbox_img_carousel" 
@@ -13,6 +13,8 @@
             </figure>
             </div>
     </div>
+    <!-- <div class="arrowKey right" v-on:click="nextImage()">></div>       -->
+    <!-- <span class="arrowKey left" v-on:click="prevImage()"><</span>         -->
     <figcaption>
         <div :class="[(activeInfo) ? 'activeInfo' : 'text']">
             <a v-on:click="activateInfo()">{{expandMessage}}</a>
@@ -122,6 +124,18 @@ export default Vue.extend({
         border-radius: 4px;
     }
 
+    /* .arrowKey {
+        position: relative;
+        font-size: 5em;
+        color: white;
+        height: 70vh;
+        width: 50vw;
+        border: 2px solid #2B9DFF;
+    }
+
+    .right {
+        transform: translate(100%, 10%);
+    } */
     figcaption {
         position: fixed;
         padding: 1em 2em;

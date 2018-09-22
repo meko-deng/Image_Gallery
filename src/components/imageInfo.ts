@@ -66,7 +66,12 @@ export class ImgInfo {
 
         return return_text;
     }
-
+    /**
+     * Texts have too much tags (#) linked to it, cluttering with useless information
+     * Cuts out all the hash tags clusterd at the bottom
+     * @param text Given text with all the hashtags
+     * @return {string} cleaned up text
+     */
     cleanUpText(text:string):string {
         console.log(text)
         let cleaned_up_text = text.substring(0, text.indexOf('.\n.\n.'))
