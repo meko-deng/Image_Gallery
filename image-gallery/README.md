@@ -27,3 +27,5 @@ npm run lint
 * responsive!!
 * remove a picture
 * maybe add a download option
+
+* centralize API calls, migrate to ajax
