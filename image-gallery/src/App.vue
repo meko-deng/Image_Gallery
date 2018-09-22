@@ -15,6 +15,10 @@ export default Vue.extend({
     HelloWorld, ImgModal
   },
   computed: {
+    /**
+     * Checks for the state of lightbox display in Vuex store
+     * @return {boolean} state of display
+     */
     displayLightbox(): boolean {
       return this.$store.state.lightbox.display_lightbox
     }      

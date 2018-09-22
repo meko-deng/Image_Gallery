@@ -5,7 +5,7 @@
         <img :src="img.img_src">
       </div>
       <figcaption class="additional">
-        <a v-on:click="displayImgModal(img.img_src)">More Info</a>
+        <a v-on:click="displayImgModal(img)">More Info</a>
         <p>{{img.img_caption}}</p>
       </figcaption>      
     </figure>
@@ -24,10 +24,6 @@ export default Vue.extend({
   data() {
     return {
       images:<Array<imgStructure>>[],
-      pagination:{
-        next_max_id:<string>"",
-        next_url:<string>""
-      }
     }
   },
   methods: {
@@ -47,11 +43,19 @@ export default Vue.extend({
       })          
     },
 
-    displayImgModal(image_source:string){
-      console.log('calling displayModal')
+    displayImgModal(image:imgStructure){
       this.$store.commit('show_lightbox')
       this.$store.commit('set_lightbox_img', {
-        img_src: image_source})      
+        img_src: image.img_src})
+      this.$store.commit('push_img', {
+        carousel: image.carousel_img
+      })
+      this.$store.commit('set_lightbox_img_info', {
+        info: {
+          img_text: image.img_text,
+          img_likes: image.img_likes
+        }
+      })    
     }
   },
   created(){

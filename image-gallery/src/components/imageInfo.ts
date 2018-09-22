@@ -13,16 +13,16 @@ export class ImgInfo {
     filterInformation(informations:any):Array<imgStructure> {
         for (let key in informations.data){
             let info = informations.data[key];
-            console.log(info)
 
-            if(info.type == "image") {
-                let id = info.id;
-                let src = info.images.standard_resolution.url;
-                let likes = info.likes.count;
-                let text = info.caption.text;
-                let tags = info.tags;
-                let caption = this.extractCaption(text,150)
-
+            if(info.type != "video") {
+                let id:string = info.id;
+                let src:string = info.images.standard_resolution.url;
+                let likes:number = info.likes.count;
+                let tags:Array<string> = info.tags;
+                let caption:string = this.extractCaption(info.caption.text,100)
+                let text:string = this.cleanUpText(info.caption.text)       
+                let carousel:Array<imgModalStructure> = this.get_carousel_images(info)
+                
                 this.images.push({
                     img_src:src,
                     img_likes:likes,
@@ -30,10 +30,27 @@ export class ImgInfo {
                     img_text:text,
                     img_tags:tags,
                     img_id:id,
+                    carousel_img: carousel
                 })
             }
         }
         return this.images
+    }
+    /**
+     * Gets the carousel images 
+     * @param {any} info all objects returned from the instagram API
+     */
+    get_carousel_images(info:any):Array<imgModalStructure> {
+        let carousel_images:Array<imgModalStructure> = []
+        if (info.type == "carousel"){
+            info.carousel_media.forEach((image:any) => {
+                if (image.type != "video")
+                carousel_images.push({
+                    img_src: image.images.standard_resolution.url
+                })
+            });
+        }
+        return carousel_images    
     }
 
     /**
@@ -49,6 +66,13 @@ export class ImgInfo {
 
         return return_text;
     }
+
+    cleanUpText(text:string):string {
+        console.log(text)
+        let cleaned_up_text = text.substring(0, text.indexOf('.\n.\n.'))
+        console.log(cleaned_up_text)
+        return cleaned_up_text
+    }
 }
 
 export interface imgStructure {
@@ -58,4 +82,14 @@ export interface imgStructure {
     img_text:string;
     img_tags:string[];
     img_id:string;
+    carousel_img:imgModalStructure[];
+}
+
+export interface imgModalStructure {
+    img_src:string;
+}
+
+export interface imgInfoStructure {
+    img_text:string;
+    img_likes:number;
 }
