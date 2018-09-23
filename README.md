@@ -28,4 +28,3 @@ npm run lint
 * remove a picture
 * maybe add a download option
 
-* centralize API calls, migrate to ajax

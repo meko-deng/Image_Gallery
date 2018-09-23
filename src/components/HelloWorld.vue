@@ -161,5 +161,62 @@ figure:hover .additional {
   transform: scale(1);
 }
 
+@media (max-width: 1350px) {
+  .wrapper {
+      grid-template-columns: repeat(2, 35vw);
+      grid-column-gap: 10px;
+      grid-row-gap: 10px;
+      justify-items: center;
+  } 
+
+  figure {
+    height: 20vw;
+  }
+}
+@media (max-width: 800px) {
+  .wrapper {
+      grid-template-columns: 60vw;
+      grid-column-gap: 10px;
+      grid-row-gap: 10px;
+      justify-items: center;
+  } 
+
+  figure {
+    height: 40vw;
+  }
+}
+
+@media (max-width: 880px){
+  figure figcaption p {
+    font-size: 0.7em;
+  }
+}
+
+@media (max-width: 500px) {
+  figure figcaption p {
+    font-size: 0.5em;
+  }
+
+  figure figcaption a {
+    font-size: 0.9em;
+  }
+}
+
+@media (max-width: 350px) {
+  .wrapper {
+      grid-template-columns: 80vw;
+      grid-row-gap: 5px;
+      justify-items: center;
+  } 
+
+  figure figcaption p {
+    font-size: 0.5em;
+  }
+
+  figure figcaption a {
+    font-size: 0.6em;
+  }  
+}
+
 
 </style>

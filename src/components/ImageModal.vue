@@ -1,8 +1,10 @@
 <template> 
  <div class="modal modal-mask">
-    <a v-on:click="close_modal()">Press me</a>    
+    <a v-on:click="close_modal()"><i class="fas fa-times-circle"></i></a>    
     <div class="modal-body">
-        <img :src="currentImage">  
+        <div class="img-container">
+            <img :src="currentImage"> 
+        </div> 
         <div class="thumbnails">
             <figure 
                 v-for="(img,index) in lightbox_img_carousel" 
@@ -85,10 +87,19 @@ export default Vue.extend({
 </script>
 
 <style scoped>
-    .modal a {
+    .fas {
+        font-size: 40px;
+        color:#fff;
+        opacity: 0.8;
+        transition: all .2s ease;
+    }
+    .fas:hover {
+        opacity: 0.3
+    }
+    .modal .fas {
         position: absolute;
         right: 1vw;
-        top: 0;
+        top: 1vh;
     }
     .modal-mask {
         position: fixed;
@@ -101,6 +112,16 @@ export default Vue.extend({
         display: table;
         transition: opacity .5s ease;
     }
+    .text a {
+        position: absolute;
+        top:0;
+        right:0;
+    }
+    .activeInfo a {
+        position: absolute;
+        top:0;
+        right:0;
+    }
     .modal-body {
         position: absolute;
         height: auto;
@@ -108,6 +129,13 @@ export default Vue.extend({
         top: 50%; 
         left: 50%;
         transform: translate(-50%,-50%);
+    }
+
+    .img-container {
+        position: relative;
+        margin:auto;
+        overflow:hidden;
+        height: 60vh;
     }
     .active > img {
         opacity: 0.3;
@@ -118,9 +146,9 @@ export default Vue.extend({
     .h3 {
         word-break: break-all;
     }
-    img {
+    .img-container img {
         max-width: 50vw;
-        max-height: 70vh;
+        max-height: 60vh;
         border-radius: 4px;
     }
 
@@ -140,8 +168,9 @@ export default Vue.extend({
         position: fixed;
         padding: 1em 2em;
         width: 50vw;
-        top:0;
+        top:66vh;
         left: 50%;
+        font-size: 0.9em;
         transform: translate(-50%, 0);
         color: #fff;
         text-align: center;        
@@ -150,10 +179,9 @@ export default Vue.extend({
     figcaption .text {
         height: 3em;
         overflow: hidden;
-        background: rgba(0,0,0,0.5);
+        background: rgba(0,0,0,0.8);
         border-radius: 4px;
         margin-bottom: 20px;
-        font-size: 0.9em;
         transition: all 1s ease;
     }
 
@@ -162,7 +190,6 @@ export default Vue.extend({
         background: rgba(0,0,0,0.5);
         border-radius: 4px;
         margin-bottom: 20px;
-        font-size: 0.9em;
         transition: all 1s ease;
     }
 
@@ -183,7 +210,8 @@ export default Vue.extend({
         grid-column-gap: 5px;
         grid-row-gap: 5px;
         justify-items: center;
-        height: calc(20vh)
+        height: 20vh;
+        padding-top: 6vh;
     }
 
     figure {
@@ -203,6 +231,39 @@ export default Vue.extend({
 
     figure:hover {
         opacity: 0.8;
-    }    
+    } 
+    
+    @media(max-width:990px) {
+        .modal-body {
+            transform: translate(-50%,0);
+            top: 10vh;
+            width: 70vw;
+        }
+        .img-container {
+            max-height: 70vw;
+        }
+
+        .img-container img {
+            max-width: 70vw;
+            max-height: 70vh;
+        }
+
+        .thumbnails {
+            grid-template-columns: repeat(5, calc((70vw - 25px) / 5)); 
+            height: 20vh;  
+            padding-top: 10px;        
+        }
+
+        figcaption {
+            top: 3vh;
+            width: 70vw;
+            font-size: 0.8em;
+            overflow: auto;
+        }
+
+        figcaption p {
+            padding: 0em 3em;
+        }
+    }
 
 </style>
