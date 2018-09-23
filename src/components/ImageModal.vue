@@ -3,7 +3,14 @@
     <a v-on:click="close_modal()"><i class="fas fa-times-circle"></i></a>    
     <div class="modal-body">
         <div class="img-container">
-            <img :src="currentImage"> 
+            <figcaption :style="caption_width">
+                <div :class="[(activeInfo) ? 'activeInfo' : 'text']">
+                    <a v-on:click="activateInfo()">{{expandMessage}}</a>
+                    <p>{{img_info.img_likes}}</p>
+                    <p>{{img_info.img_text}}</p>
+                </div>
+            </figcaption>             
+            <img class="currentImage_class" :src="currentImage"> 
         </div> 
         <div class="thumbnails">
             <figure 
@@ -17,13 +24,13 @@
     </div>
     <!-- <div class="arrowKey right" v-on:click="nextImage()">></div>       -->
     <!-- <span class="arrowKey left" v-on:click="prevImage()"><</span>         -->
-    <figcaption>
+    <!-- <figcaption>
         <div :class="[(activeInfo) ? 'activeInfo' : 'text']">
             <a v-on:click="activateInfo()">{{expandMessage}}</a>
             <p>{{img_info.img_likes}}</p>
             <p>{{img_info.img_text}}</p>
         </div>
-    </figcaption>    
+    </figcaption>     -->
 </div>
 </template>
 
@@ -37,7 +44,8 @@ export default Vue.extend({
     return {
         activeImage:<number>0,
         activeInfo:<boolean>false,
-        expandMessage:<string>"Show More"
+        expandMessage:<string>"Show More",
+        mainImageWidth:<number>0
     };
   },
   components: {
@@ -61,7 +69,12 @@ export default Vue.extend({
     },
     img_info(): imgInfoStructure {
         return this.$store.state.lightbox.img_info
-    }
+    },
+    caption_width(): any {
+        return {
+            width: `${this.mainImageWidth}px`
+        }
+    },
   },
   methods: {
     close_modal():void {
@@ -70,8 +83,8 @@ export default Vue.extend({
         img_src: ""})
     },
     activateImage(imageIndex:number):void {
-        console.log('clicked')
         this.activeImage = imageIndex
+        this.getMainImageWidth()
     },
     activateInfo():void {
         if(!this.activeInfo){
@@ -81,7 +94,16 @@ export default Vue.extend({
             this.activeInfo = false
             this.expandMessage = "Show More"            
         }
+    },
+    getMainImageWidth():void {
+        let width = document.getElementsByClassName('currentImage_class')[0].clientWidth
+        console.log(width)
+        this.mainImageWidth = width
     }
+  },
+  mounted() {
+        this.getMainImageWidth()
+        window.addEventListener('resize',this.getMainImageWidth)    
   }
 })
 </script>
@@ -126,7 +148,7 @@ export default Vue.extend({
         position: absolute;
         height: auto;
         width: 50vw;      
-        top: 50%; 
+        top: 55%; 
         left: 50%;
         transform: translate(-50%,-50%);
     }
@@ -134,7 +156,8 @@ export default Vue.extend({
     .img-container {
         position: relative;
         margin:auto;
-        overflow:hidden;
+        border-radius: 4px;
+        /* overflow:hidden; */
         max-height: 50vw;
     }
     .active > img {
@@ -149,26 +172,12 @@ export default Vue.extend({
     .img-container img {
         max-width: 50vw;
         max-height: 60vh;
-        border-radius: 4px;
     }
-
-    /* .arrowKey {
-        position: relative;
-        font-size: 5em;
-        color: white;
-        height: 70vh;
-        width: 50vw;
-        border: 2px solid #2B9DFF;
-    }
-
-    .right {
-        transform: translate(100%, 10%);
-    } */
     figcaption {
-        position: fixed;
+        position: absolute;
         padding: 1em 2em;
-        width: 50vw;
-        top:66vh;
+        /* max-width: 30vw; */
+        top:-4em;
         left: 50%;
         font-size: 0.9em;
         transform: translate(-50%, 0);
@@ -251,12 +260,11 @@ export default Vue.extend({
         .thumbnails {
             grid-template-columns: repeat(5, calc((70vw - 25px) / 5)); 
             height: 20vh;  
-            padding-top: 10px;        
+            padding-top: 60px;        
         }
 
         figcaption {
-            top: 3vh;
-            width: 70vw;
+            top: -4em;
             font-size: 0.8em;
             overflow: auto;
         }

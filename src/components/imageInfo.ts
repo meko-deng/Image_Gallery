@@ -73,9 +73,7 @@ export class ImgInfo {
      * @return {string} cleaned up text
      */
     cleanUpText(text:string):string {
-        console.log(text)
         let cleaned_up_text = text.substring(0, text.indexOf('.\n.\n.'))
-        console.log(cleaned_up_text)
         return cleaned_up_text
     }
 }
