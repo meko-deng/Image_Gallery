@@ -236,7 +236,7 @@ export default Vue.extend({
     @media(max-width:990px) {
         .modal-body {
             transform: translate(-50%,0);
-            top: 30vh;
+            top: 15vh;
             width: 70vw;
         }
         .img-container {
