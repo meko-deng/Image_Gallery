@@ -135,7 +135,7 @@ export default Vue.extend({
         position: relative;
         margin:auto;
         overflow:hidden;
-        height: 60vh;
+        max-height: 50vw;
     }
     .active > img {
         opacity: 0.3;
@@ -211,7 +211,7 @@ export default Vue.extend({
         grid-row-gap: 5px;
         justify-items: center;
         height: 20vh;
-        padding-top: 6vh;
+        padding-top: 50px;
     }
 
     figure {
@@ -236,7 +236,7 @@ export default Vue.extend({
     @media(max-width:990px) {
         .modal-body {
             transform: translate(-50%,0);
-            top: 10vh;
+            top: 30vh;
             width: 70vw;
         }
         .img-container {
@@ -263,6 +263,12 @@ export default Vue.extend({
 
         figcaption p {
             padding: 0em 3em;
+        }
+    }
+
+    @media (max-width: 700px) {
+        figcaption {
+            font-size: 0.6em
         }
     }
 

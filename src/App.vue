@@ -1,18 +1,19 @@
 <template>
   <div id="app">
     <img-modal v-if="displayLightbox"></img-modal>
-    <HelloWorld />
+    <HelloWorld/>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import HelloWorld from './components/HelloWorld.vue';
+import Footer from './components/Footer.vue';
 import ImgModal from './components/ImageModal.vue';
 
 export default Vue.extend({
   components: {
-    HelloWorld, ImgModal
+    HelloWorld, ImgModal, Footer
   },
   computed: {
     /**

@@ -4,12 +4,13 @@
       <div class="content">
         <img :src="img.img_src">
       </div>
+      <i v-if="img.carousel_img.length !=0" class="fas fa-clone"></i>
       <figcaption class="additional">
         <a v-on:click="displayImgModal(img)">More Info</a>
         <p>{{img.img_caption}}</p>
       </figcaption>      
     </figure>
-    <a v-on:click="loadMoreImages()">Load More</a>
+    <a v-on:click="loadMoreImages()"><i :class="(isLoading)?'fas fa-spinner fa-spin' : 'fas fa-plus'"></i></a>
   </div>
 </template>
 
@@ -24,12 +25,15 @@ export default Vue.extend({
   data() {
     return {
       images:<Array<imgStructure>>[],
+      isLoading:<boolean>false,
     }
   },
   methods: {
     getImages() {
+      this.isLoading = true;
       InstagramApi.getInstagramImages().then((images:imgStructure[])=> {
-        this.images = images
+        this.images = images;
+        this.isLoading = false;
       })
     },
 
@@ -38,8 +42,10 @@ export default Vue.extend({
      * appends result in this.images
      */ 
     loadMoreImages(){
+      this.isLoading = true;
       InstagramApi.loadMoreInstagramImages(this.images).then((images:imgStructure[])=> {
-        this.images = images
+        this.images = images;
+        this.isLoading = false;
       })          
     },
 
@@ -58,13 +64,24 @@ export default Vue.extend({
       })    
     }
   },
-  created(){
+  mounted(){
     this.getImages()
   }
 })
 </script>
 
 <style scoped>
+.fa-spinner, .fa-plus{
+  position: relative;
+  top: 32%;
+  font-size: 80px;
+  opacity: 0.6;
+  transition: opacity .5s ease;
+}
+
+.fa-plus:hover{
+  opacity: 0.9
+}
 .wrapper {
     position: relative;
     display: grid;
@@ -73,7 +90,6 @@ export default Vue.extend({
     grid-row-gap: 10px;
     justify-items: center;
 }
-
 .center {
     margin: 0;
     position: absolute;
@@ -104,6 +120,14 @@ figure img {
   left: 10%;
   transform: translate(-10%, -25%);   
   transition: all .5s; 
+}
+
+figure i {
+  position: absolute;
+  top: 0.2em;
+  right: 0.2em;
+  font-size: 50px;
+  color:rgba(158, 17, 17, 0.8)
 }
 
 figure figcaption {
