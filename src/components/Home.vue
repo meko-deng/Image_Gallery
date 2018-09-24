@@ -45,13 +45,16 @@ export default Vue.extend({
   },
   watch: {
     /**
-     * shows next image if isNextImage is true
+     * shows next image if isNextImage is true and if the current image's index isn't the last one
      */
     isNextImage: function() {
-      if (this.isNextImage) {
+      if (this.isNextImage && this.currentImageIndex != (this.images.length - 1)) {
         this.displayImgModal(this.currentImageIndex + 1)
         this.$store.commit('show_next_img', {
             state: false})
+      } else {
+        this.$store.commit('show_next_img', {
+            state: false})        
       }
     },
     /**
@@ -62,6 +65,9 @@ export default Vue.extend({
         this.displayImgModal(this.currentImageIndex - 1)
         this.$store.commit('show_prev_img', {
             state: false})
+      } else {
+        this.$store.commit('show_prev_img', {
+            state: false})        
       }
     }
   },

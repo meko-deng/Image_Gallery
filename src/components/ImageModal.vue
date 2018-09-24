@@ -290,7 +290,6 @@ export default Vue.extend({
     figure:hover {
         opacity: 0.8;
     } 
-    
     @media(max-width:990px) {
         .modal-body {
             transform: translate(-50%,0);
