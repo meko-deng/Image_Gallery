@@ -3,7 +3,7 @@
     <div class="header">
       <Header/>
     </div>
-    <figure v-on:click="displayImgModal(img)" class="box" v-for="(img,index) in images" :key="index">
+    <figure v-on:click="displayImgModal(index)" class="box" v-for="(img,index) in images" :key="index">
       <div class="content">
         <img :src="img.img_src">
       </div>
@@ -34,10 +34,35 @@ export default Vue.extend({
     return {
       images:<Array<imgStructure>>[],
       isLoading:<boolean>false,
+      currentImageIndex:<number>0,
     }
   },
   components: {
     Footer, Header
+  },
+  computed: {
+    isNextImage(): boolean {
+        return this.$store.state.lightbox.next_img
+    },
+    isPrevImage(): boolean {
+        return this.$store.state.lightbox.prev_img
+    }
+  },
+  watch: {
+    isNextImage: function() {
+      if (this.isNextImage) {
+        this.displayImgModal(this.currentImageIndex + 1)
+        this.$store.commit('show_next_img', {
+            state: false})
+      }
+    },
+    isPrevImage: function() {
+      if (this.isPrevImage && this.currentImageIndex != 0) {
+        this.displayImgModal(this.currentImageIndex - 1)
+        this.$store.commit('show_prev_img', {
+            state: false})
+      }
+    }
   },
   methods: {
     getImages() {
@@ -60,7 +85,9 @@ export default Vue.extend({
       })          
     },
 
-    displayImgModal(image:imgStructure){
+    displayImgModal(index:number){
+      this.currentImageIndex = index
+      let image = this.images[index]
       this.$store.commit('show_lightbox')
       this.$store.commit('set_lightbox_img', {
         img_src: image.img_src})

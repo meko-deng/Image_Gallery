@@ -1,8 +1,10 @@
 <template> 
  <div class="modal modal-mask">
     <a v-on:click="close_modal()"><i class="fas fa-times-circle"></i></a>    
-    <div class="modal-body">
-        <div class="img-container">
+    <div v-on:click="showPrevImg()" class="arrow-left"><i class="fas fa-angle-left"></i></div>
+    <div v-on:click="showNextImg()" class="arrow-right"><i class="fas fa-angle-right"></i></div>      
+    <div class="modal-body">       
+        <div class="img-container">           
             <figcaption :style="caption_width">
                 <div :class="[(activeInfo) ? 'activeInfo' : 'text']">
                     <a v-on:click="activateInfo()">{{expandMessage}}</a>
@@ -99,6 +101,16 @@ export default Vue.extend({
                 this.mainImageWidth = width
             }            
         }, 25)
+    },
+    showNextImg():void {
+        this.$store.commit('show_next_img', {
+            state: true})
+        this.getMainImageWidth()
+    },
+    showPrevImg():void {
+        this.$store.commit('show_prev_img', {
+            state: true})
+        this.getMainImageWidth()    
     }
   },
   mounted() {
@@ -123,6 +135,17 @@ export default Vue.extend({
         right: 1vw;
         top: 1vh;
     }
+    .arrow-left, .arrow-right {
+        position: absolute;
+        top: 50vh;
+        padding: 1em 0;
+    }   
+    .arrow-left {
+        left: 7vw;
+    }
+    .arrow-right {
+        right: 1vw;
+    }    
     .modal-mask {
         position: fixed;
         z-index: 9998;
@@ -147,7 +170,6 @@ export default Vue.extend({
         left: 50%;
         transform: translate(-50%,-50%);
     }
-
     .img-container {
         position: relative;
         margin:auto;
@@ -167,6 +189,7 @@ export default Vue.extend({
         max-width: 50vw;
         max-height: 60vh;
     }
+
     figcaption {
         position: absolute;
         padding: 1em 2em;
@@ -251,7 +274,7 @@ export default Vue.extend({
     @media(max-width:990px) {
         .modal-body {
             transform: translate(-50%,0);
-            top: 15vh;
+            top: 20vh;
             width: 70vw;
         }
         .img-container {
@@ -278,7 +301,7 @@ export default Vue.extend({
 
         figcaption i {
             top:0.2em;
-            left:-1.5em;                   
+            left:0em;                   
         }        
 
         figcaption p {
@@ -289,14 +312,13 @@ export default Vue.extend({
     @media (max-width: 700px) {
         figcaption {
             font-size: 0.6em
-        }
-        figcaption i {
-            top:0.2em;
-            left:0em;                   
-        }            
+        }        
     }
 
     @media (max-width: 500px) {
+        .modal-body {
+            top:25vh;
+        }
         .fas {
             font-size: 30px;
         }

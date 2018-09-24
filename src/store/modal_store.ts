@@ -9,7 +9,9 @@ export const lightbox = {
     display_lightbox:<boolean>false,
     img_carousel:<Array<imgModalStructure>>[],
     img_src:<string>"",
-    img_info:<imgInfoStructure>{}
+    img_info:<imgInfoStructure>{},
+    next_img:<boolean>false,
+    prev_img:<boolean>false,
   },
   mutations: {
     show_lightbox: (state:any) => {
@@ -26,6 +28,12 @@ export const lightbox = {
     },
     set_lightbox_img_info: (state:any, src:any) => {
       state.img_info = src.info
+    },
+    show_next_img: (state:any, isShow:any) => {
+      state.next_img = isShow.state
+    },
+    show_prev_img: (state:any, isShow:any) => {
+      state.prev_img = isShow.state;
     }
   }
 }
