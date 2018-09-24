@@ -1,5 +1,5 @@
 # My <Instagram> Gallery
-A Submission to Broadsign's Frontend Coding Challenge
+A Submission to Broadsign's Frontend Coding Challenge - Deployed Link: https://pensive-chandrasekhar-ea4753.netlify.com/ 
 
 ## Project Structure
 * src
