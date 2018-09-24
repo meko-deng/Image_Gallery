@@ -92,9 +92,13 @@ export default Vue.extend({
         }
     },
     getMainImageWidth():void {
-        let width = document.getElementsByClassName('currentImage_class')[0].clientWidth
-        console.log(width)
-        this.mainImageWidth = width
+        let targetClass = document.getElementsByClassName('currentImage_class')
+        setTimeout(() => {
+            if (targetClass.length != 0) {
+                let width = targetClass[0].clientWidth
+                this.mainImageWidth = width
+            }            
+        }, 25)
     }
   },
   mounted() {
@@ -147,9 +151,7 @@ export default Vue.extend({
     .img-container {
         position: relative;
         margin:auto;
-        border-radius: 4px;
-        /* overflow:hidden; */
-        max-height: 50vw;
+        max-height: 60vh;
     }
     .active > img {
         opacity: 0.3;
@@ -161,13 +163,13 @@ export default Vue.extend({
         word-break: break-all;
     }
     .img-container img {
+        border-radius: 4px;
         max-width: 50vw;
         max-height: 60vh;
     }
     figcaption {
         position: absolute;
         padding: 1em 2em;
-        /* max-width: 30vw; */
         top:-4em;
         left: 50%;
         font-size: 0.9em;
@@ -196,6 +198,7 @@ export default Vue.extend({
     figcaption p {
         padding: 0em 5em;
         text-align: left;
+        white-space:pre-wrap;
     }
 
     figcaption a {
@@ -252,12 +255,13 @@ export default Vue.extend({
             width: 70vw;
         }
         .img-container {
-            max-height: 70vw;
+            height: 70vw;
         }
 
         .img-container img {
+            border-radius: 4px;
             max-width: 70vw;
-            max-height: 70vh;
+            max-height: 75vw;
         }
 
         .thumbnails {
@@ -278,7 +282,7 @@ export default Vue.extend({
         }        
 
         figcaption p {
-            padding: 0em 3em;
+            padding: 0em 1em;
         }
     }
 

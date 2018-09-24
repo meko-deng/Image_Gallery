@@ -3,12 +3,12 @@
     <div class="header">
       <Header/>
     </div>
-    <figure class="box" v-for="(img,index) in images" :key="index">
+    <figure v-on:click="displayImgModal(img)" class="box" v-for="(img,index) in images" :key="index">
       <div class="content">
         <img :src="img.img_src">
       </div>
       <i v-if="img.carousel_img.length !=0" class="fas fa-clone"></i>
-      <figcaption v-on:click="displayImgModal(img)" class="additional">
+      <figcaption class="additional">
         <a>More Info</a>
         <p>{{img.img_caption}}</p>
       </figcaption>      

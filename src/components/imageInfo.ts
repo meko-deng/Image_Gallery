@@ -73,7 +73,13 @@ export class ImgInfo {
      * @return {string} cleaned up text
      */
     cleanUpText(text:string):string {
-        let cleaned_up_text = text.substring(0, text.indexOf('.\n.\n.'))
+        let cleaned_up_text = ""
+        let initial_clean = text.substring(0, text.indexOf('.\n.'))
+        if (initial_clean.length <= 200){
+            cleaned_up_text = text.split('.\n.\n').join("\n");
+        }else {
+            cleaned_up_text = initial_clean
+        }
         return cleaned_up_text
     }
 }
