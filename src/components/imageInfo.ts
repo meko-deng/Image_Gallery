@@ -39,6 +39,7 @@ export class ImgInfo {
     /**
      * Gets the carousel images 
      * @param {any} info all objects returned from the instagram API
+     * @returns {Array<imgModalStructure>} returns carousel images
      */
     get_carousel_images(info:any):Array<imgModalStructure> {
         let carousel_images:Array<imgModalStructure> = []
@@ -68,7 +69,7 @@ export class ImgInfo {
     }
     /**
      * Texts have too much tags (#) linked to it, cluttering with useless information
-     * Cuts out all the hash tags clusterd at the bottom
+     * Formats text so that it is of appropriate length for display
      * @param text Given text with all the hashtags
      * @return {string} cleaned up text
      */
@@ -84,6 +85,7 @@ export class ImgInfo {
     }
 }
 
+//structure of image information to be returned for Home.vue
 export interface imgStructure {
     img_src:string;
     img_likes:number;
@@ -94,10 +96,12 @@ export interface imgStructure {
     carousel_img:imgModalStructure[];
 }
 
+//structure of image to be consumed by modal
 export interface imgModalStructure {
     img_src:string;
 }
 
+//structure of image information to be consumed by modal
 export interface imgInfoStructure {
     img_text:string;
     img_likes:number;

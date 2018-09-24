@@ -13,22 +13,19 @@
 import Vue from 'vue'
 
 export default Vue.extend({   
-    data() {
-        return{        
-        }
-    },
     computed: {
 		back_to_top():boolean{
 			return this.$store.state.main.back_to_top
 		},            
     },
     methods: {
-        topFunction() {
+        /**
+         * Retrun to top of page
+         */
+        topFunction():void {
             document.body.scrollTop = 0; // For Safari
             document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera            
         }
-    },    
-    created() {
     }
 })
 </script>

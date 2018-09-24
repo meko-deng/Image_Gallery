@@ -1,4 +1,12 @@
+#app {
+  font-family: Montserrat, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  margin-top: 60px;
+}
 html {
+    margin-left: calc(100vw - 100%);
     scroll-behavior: smooth;
 }
 

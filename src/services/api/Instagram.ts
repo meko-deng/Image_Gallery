@@ -2,12 +2,12 @@ import axios from 'axios';
 import {ImgInfo,imgStructure} from '../../components/imageInfo'
 
 export default {
-    token:<string>"1611740911.1677ed0.74fc99a20d53446c9599d6da14dc24cb",
+    token:<string>"1611740911.1677ed0.74fc99a20d53446c9599d6da14dc24cb",  //under normal circumstances, this token wouldn't be public.
     next_max_id:<string>"",
 
     /**
      * Gets the images by calling the instagram API: https://www.instagram.com/developer/endpoints/ 
-     * saves the result in this.images
+     * returns a promise
      */   
     getInstagramImages():any {
         let returnedImages = new ImgInfo();
@@ -27,7 +27,7 @@ export default {
     
     /**
      * Uses pagination property of instagram API to fetch the next page
-     * appends result in this.images
+     * returns a promise
      */ 
     loadMoreInstagramImages(images:imgStructure[]):any{
         let returnedImages = new ImgInfo();

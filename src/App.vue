@@ -1,19 +1,19 @@
 <template>
   <div id="app">
     <img-modal v-if="displayLightbox"></img-modal>
-    <HelloWorld/>
+    <Home/>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import HelloWorld from './components/HelloWorld.vue';
+import Home from './components/Home.vue';
 import Footer from './components/Footer.vue';
 import ImgModal from './components/ImageModal.vue';
 
 export default Vue.extend({
   components: {
-    HelloWorld, ImgModal, Footer
+    Home, ImgModal, Footer
   },
   computed: {
     /**
@@ -26,15 +26,3 @@ export default Vue.extend({
   }
 })
 </script>
-
-<style>
-html { margin-left: calc(100vw - 100%); 
-}
-#app {
-  font-family: Montserrat, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  margin-top: 60px;
-}
-</style>

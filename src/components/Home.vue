@@ -1,8 +1,6 @@
 <template>
   <div class="wrapper center">
-    <div class="header">
-      <Header/>
-    </div>
+    <div class="header"><Header/></div>
     <figure v-on:click="displayImgModal(index)" class="box" v-for="(img,index) in images" :key="index">
       <div class="content">
         <img :src="img.img_src">
@@ -14,9 +12,7 @@
       </figcaption>      
     </figure>
     <a v-on:click="loadMoreImages()"><i :class="(isLoading)?'fas fa-spinner fa-spin' : 'fas fa-plus'"></i></a>
-    <div v-if="!isLoading" class="footer">
-      <Footer/>
-    </div>
+    <div v-if="!isLoading" class="footer"><Footer/></div>
   </div>
 </template>
 
@@ -29,7 +25,6 @@ import {imgStructure} from './imageInfo';
 import InstagramApi from '../services/api/Instagram';
 
 export default Vue.extend({
-  name: 'helloWorld',
   data() {
     return {
       images:<Array<imgStructure>>[],
@@ -49,6 +44,9 @@ export default Vue.extend({
     }
   },
   watch: {
+    /**
+     * shows next image if isNextImage is true
+     */
     isNextImage: function() {
       if (this.isNextImage) {
         this.displayImgModal(this.currentImageIndex + 1)
@@ -56,6 +54,9 @@ export default Vue.extend({
             state: false})
       }
     },
+    /**
+     * shows prev image if isPrevImage is true and if the current image's index isn't 0
+     */    
     isPrevImage: function() {
       if (this.isPrevImage && this.currentImageIndex != 0) {
         this.displayImgModal(this.currentImageIndex - 1)
@@ -65,27 +66,33 @@ export default Vue.extend({
     }
   },
   methods: {
-    getImages() {
+    /**
+     * Get images from the instagram API
+     * sets result to this.images
+     */
+    getImages(): void {
       this.isLoading = true;
       InstagramApi.getInstagramImages().then((images:imgStructure[])=> {
         this.images = images;
         this.isLoading = false;
       })
     },
-
     /**
      * Uses pagination property of instagram API to fetch the next page
      * appends result in this.images
      */ 
-    loadMoreImages(){
+    loadMoreImages(): void{
       this.isLoading = true;
       InstagramApi.loadMoreInstagramImages(this.images).then((images:imgStructure[])=> {
         this.images = images;
         this.isLoading = false;
       })          
     },
-
-    displayImgModal(index:number){
+    /**
+     * Displays the current image at index 'index' of this.images
+     * @param {number} index target image index to display
+     */
+    displayImgModal(index:number): void{
       this.currentImageIndex = index
       let image = this.images[index]
       this.$store.commit('show_lightbox')

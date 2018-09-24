@@ -73,17 +73,27 @@ export default Vue.extend({
     },
   },
   methods: {
+    /**
+     * Closes the modal, sets the lightbox img source to be ""
+     */
     close_modal():void {
       this.$store.commit('remove_lightbox')
       this.$store.commit('set_lightbox_img', {
         img_src: ""})
     },
+    /**
+     * Sets main image as the image at index imageIndex
+     * @param {number} imageIndex the target index of the image to be displayed
+     */
     activateImage(imageIndex:number):void {
         this.activeImage = imageIndex
         setTimeout(() => {
             this.getMainImageWidth()
         }, 10)
     },
+    /**
+     * toggles the "Show Less" and "Show More" display, in turn toggling the appropriate class for display
+     */
     activateInfo():void {
         if(!this.activeInfo){
             this.activeInfo = true
@@ -93,6 +103,10 @@ export default Vue.extend({
             this.expandMessage = "Show More"            
         }
     },
+    /**
+     * Get width of the main image to set figcaption tag group width, needs to be computed as the width of the image changes
+     * The setTimeout function allows the image to be rendered before setting the corresponding width.
+     */
     getMainImageWidth():void {
         let targetClass = document.getElementsByClassName('currentImage_class')
         setTimeout(() => {
@@ -102,11 +116,17 @@ export default Vue.extend({
             }            
         }, 25)
     },
+    /**
+     * Uses Vuex store to toggle show_next_img
+     */
     showNextImg():void {
         this.$store.commit('show_next_img', {
             state: true})
         this.getMainImageWidth()
     },
+    /**
+     * Uses Vuex store to toggle show_prev_img
+     */    
     showPrevImg():void {
         this.$store.commit('show_prev_img', {
             state: true})
@@ -144,7 +164,7 @@ export default Vue.extend({
         left: 7vw;
     }
     .arrow-right {
-        right: 1vw;
+        right: 3vw;
     }    
     .modal-mask {
         position: fixed;
