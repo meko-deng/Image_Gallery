@@ -1,7 +1,7 @@
 <template>
     <footer>
         <div class="footerSection">
-            <h1 v-on:click="topFunction()">BACK TO TOP</h1>
+            <a v-on:click="topFunction()">BACK TO TOP</a>
         </div>
         <div class='credits'> 
             <div class="message"><i class="fa fa-code"></i> with <i class="fa fa-heart"></i> by Meko D.</div>
@@ -38,13 +38,13 @@ export default Vue.extend({
     text-align: center;
     margin-bottom: 30px;
 }
-h1 {
+a {
     font-family: Montserrat, sans-serif;
     color: #bbbbbb; 
     font-size: 90%;
     font-weight: 400;
 }
-h1:hover {
+a:hover {
     color: #707070; 
 }
 .credits {
@@ -57,6 +57,7 @@ h1:hover {
 .message {
    font-size: 170%; 
    color: #5b5b5b; 
+   text-align: center;
 }
 .fa-heart {
     color:#da4d6c

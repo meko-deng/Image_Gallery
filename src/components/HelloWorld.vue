@@ -1,22 +1,30 @@
 <template>
   <div class="wrapper center">
+    <div class="header">
+      <Header/>
+    </div>
     <figure class="box" v-for="(img,index) in images" :key="index">
       <div class="content">
         <img :src="img.img_src">
       </div>
       <i v-if="img.carousel_img.length !=0" class="fas fa-clone"></i>
-      <figcaption class="additional">
-        <a v-on:click="displayImgModal(img)">More Info</a>
+      <figcaption v-on:click="displayImgModal(img)" class="additional">
+        <a>More Info</a>
         <p>{{img.img_caption}}</p>
       </figcaption>      
     </figure>
     <a v-on:click="loadMoreImages()"><i :class="(isLoading)?'fas fa-spinner fa-spin' : 'fas fa-plus'"></i></a>
+    <div v-if="!isLoading" class="footer">
+      <Footer/>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import axios from 'axios';
+import Footer from './Footer.vue';
+import Header from './Header.vue';
 import {imgStructure} from './imageInfo';
 import InstagramApi from '../services/api/Instagram';
 
@@ -27,6 +35,9 @@ export default Vue.extend({
       images:<Array<imgStructure>>[],
       isLoading:<boolean>false,
     }
+  },
+  components: {
+    Footer, Header
   },
   methods: {
     getImages() {
@@ -71,20 +82,26 @@ export default Vue.extend({
 </script>
 
 <style scoped>
-.fa-spinner, .fa-plus{
-  position: relative;
-  top: 32%;
+.fa-spinner, .fa-plus {
+  position: absolute;
+  right: 0;
+  bottom: 6rem;
+  left: 0;
+  padding: 1rem;
   font-size: 80px;
-  opacity: 0.6;
+  opacity: 0.5;
   transition: opacity .5s ease;
+  text-align: center;
 }
 
 .fa-plus:hover{
-  opacity: 0.9
+  opacity: 0.8
 }
 .wrapper {
     position: relative;
     display: grid;
+    padding-bottom: 15rem;
+    padding-top: 15vh;
     grid-template-columns: repeat(3, 25vw);
     grid-column-gap: 10px;
     grid-row-gap: 10px;
@@ -95,6 +112,24 @@ export default Vue.extend({
     position: absolute;
     left: 50%;
     transform: translate(-50%);
+}
+
+.header {
+  position: absolute;
+  right: 0;
+  top: -2em;
+  left: 0;
+  padding: 1rem;
+  text-align: center;
+}
+
+.footer {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 1rem;
+  text-align: center;
 }
 
 .content {
@@ -127,7 +162,7 @@ figure i {
   top: 0.2em;
   right: 0.2em;
   font-size: 50px;
-  color:rgba(158, 17, 17, 0.8)
+  color:rgba(100, 100, 100, 0.8)
 }
 
 figure figcaption {
@@ -163,6 +198,14 @@ figure figcaption a{
   transition: all .5s;
 }
 
+.additional a {
+  transition: all .5s;
+}
+
+.additional a:hover{
+  transform: scale(1.1)
+}
+
 figure:hover .content {
   opacity: 0.7;
   transition: opacity .5s;
@@ -187,7 +230,7 @@ figure:hover .additional {
 
 @media (max-width: 1350px) {
   .wrapper {
-      grid-template-columns: repeat(2, 35vw);
+      grid-template-columns: repeat(2, 40vw);
       grid-column-gap: 10px;
       grid-row-gap: 10px;
       justify-items: center;
@@ -217,6 +260,12 @@ figure:hover .additional {
 }
 
 @media (max-width: 500px) {
+  .fa-plus {
+    font-size: 50px;
+  }
+  figure i {
+    font-size: 30px;
+  }
   figure figcaption p {
     font-size: 0.5em;
   }
@@ -226,7 +275,7 @@ figure:hover .additional {
   }
 }
 
-@media (max-width: 350px) {
+@media (max-width: 400px) {
   .wrapper {
       grid-template-columns: 80vw;
       grid-row-gap: 5px;

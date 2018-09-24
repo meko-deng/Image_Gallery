@@ -6,7 +6,9 @@
             <figcaption :style="caption_width">
                 <div :class="[(activeInfo) ? 'activeInfo' : 'text']">
                     <a v-on:click="activateInfo()">{{expandMessage}}</a>
+                    <i class="far fa-heart"></i>
                     <p>{{img_info.img_likes}}</p>
+                    <td style="padding-top: 0.7px;"></td>
                     <p>{{img_info.img_text}}</p>
                 </div>
             </figcaption>             
@@ -22,15 +24,6 @@
             </figure>
             </div>
     </div>
-    <!-- <div class="arrowKey right" v-on:click="nextImage()">></div>       -->
-    <!-- <span class="arrowKey left" v-on:click="prevImage()"><</span>         -->
-    <!-- <figcaption>
-        <div :class="[(activeInfo) ? 'activeInfo' : 'text']">
-            <a v-on:click="activateInfo()">{{expandMessage}}</a>
-            <p>{{img_info.img_likes}}</p>
-            <p>{{img_info.img_text}}</p>
-        </div>
-    </figcaption>     -->
 </div>
 </template>
 
@@ -38,6 +31,7 @@
 import Vue from "vue";
 import {imgModalStructure,imgInfoStructure} from './imageInfo'
 import { lightbox } from "../store/modal_store";
+import { setTimeout } from 'timers';
 
 export default Vue.extend({
   data() {
@@ -84,7 +78,9 @@ export default Vue.extend({
     },
     activateImage(imageIndex:number):void {
         this.activeImage = imageIndex
-        this.getMainImageWidth()
+        setTimeout(() => {
+            this.getMainImageWidth()
+        }, 10)
     },
     activateInfo():void {
         if(!this.activeInfo){
@@ -129,15 +125,10 @@ export default Vue.extend({
         top: 0;
         left: 0;
         width: 100%;
-        height: 100%;
+        height: 100vh;
         background-color: rgba(0, 0, 0, 0.7);
         display: table;
         transition: opacity .5s ease;
-    }
-    .text a {
-        position: absolute;
-        top:0;
-        right:0;
     }
     .activeInfo a {
         position: absolute;
@@ -208,8 +199,20 @@ export default Vue.extend({
     }
 
     figcaption a {
+        position: absolute;
+        top:0;
+        right:0;        
         padding: 2em 5em;
         text-align: right;
+    }
+
+    figcaption i {
+        position: absolute;
+        top:0.1em;
+        left:0;        
+        padding: 2em 5em;
+        color:#ec7797;
+        text-align: left;
     }
 
     .thumbnails {
@@ -269,6 +272,11 @@ export default Vue.extend({
             overflow: auto;
         }
 
+        figcaption i {
+            top:0.2em;
+            left:-1.5em;                   
+        }        
+
         figcaption p {
             padding: 0em 3em;
         }
@@ -277,6 +285,12 @@ export default Vue.extend({
     @media (max-width: 700px) {
         figcaption {
             font-size: 0.6em
+        }
+    }
+
+    @media (max-width: 500px) {
+        .fas {
+            font-size: 30px;
         }
     }
 
