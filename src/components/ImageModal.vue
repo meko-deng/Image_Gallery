@@ -290,6 +290,10 @@ export default Vue.extend({
         figcaption {
             font-size: 0.6em
         }
+        figcaption i {
+            top:0.2em;
+            left:0em;                   
+        }            
     }
 
     @media (max-width: 500px) {
